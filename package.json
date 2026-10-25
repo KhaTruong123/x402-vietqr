@@ -1,0 +1,42 @@
+{
+  "name": "x402-vietqr",
+  "version": "0.1.0",
+  "private": true,
+  "description": "x402 endpoint that lets an AI agent pay USDC (Base or Stellar) and settle VND to any VietQR code through the Gaian sandbox API. Testnet and sandbox only.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KhaTruong123/x402-vietqr.git"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "server": "tsx src/server.ts",
+    "mcp": "tsx src/mcp.ts",
+    "setup:testnet": "tsx scripts/setup-testnet.ts",
+    "demo": "tsx scripts/demo.ts",
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "@stellar/stellar-sdk": "17.2.1",
+    "@x402/core": "2.28.0",
+    "@x402/evm": "2.28.0",
+    "@x402/express": "2.28.0",
+    "@x402/fetch": "2.28.0",
+    "@x402/stellar": "2.28.0",
+    "dotenv": "16.4.7",
+    "express": "4.21.2",
+    "viem": "2.57.7",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.21",
+    "@types/node": "22.10.2",
+    "tsx": "4.19.2",
+    "typescript": "5.7.2"
+  }
+}
