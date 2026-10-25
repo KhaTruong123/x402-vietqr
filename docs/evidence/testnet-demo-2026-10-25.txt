@@ -1,0 +1,61 @@
+x402-vietqr end-to-end testnet demo
+
+Date: 2026-10-25 (UTC run time 01:15)
+Command: npm run setup:testnet, then npm run demo
+Network: Stellar testnet. x402 facilitator: https://x402.org/facilitator
+Gaian: GAIAN_MODE=mock. Pricing is the demo rate (26,300 VND per USDC, no fee). No VND moved.
+Wallets: created fresh by scripts/setup-testnet.ts for this run (Friendbot XLM, swapped to test
+USDC on the testnet DEX). They are throwaway testnet wallets. Their secrets stay in the local
+.env file, which is gitignored and not in this repo. No personal or company credentials were used.
+
+On-chain proof
+- x402 payment: 34.23 test USDC from the agent wallet to the payTo wallet
+- Transaction: 6a80f42a572890a10ef7ba696031c7b99dbb2c57eebee035d7bd730037f91df7
+- Explorer: https://stellar.expert/explorer/testnet/tx/6a80f42a572890a10ef7ba696031c7b99dbb2c57eebee035d7bd730037f91df7
+- Horizon check: successful=true, ledger 5373463, created_at 2026-10-25T01:15:02Z
+- payTo USDC balance went from 0 to 34.23
+
+What the run checks
+1. Search returns the two Da Lat homestays and picks the quiet one (900,000 VND for 2 nights).
+2. A 5 USD budget is refused before anything is signed.
+3. The agent pays with x402. The order is reserved before settlement and only moves on after it.
+4. The order goes processing, then completed (mock lifecycle).
+5. Paying the same quote again returns HTTP 409.
+
+Not run in this demo
+- Base Sepolia payment. The server offers Base in its 402 response (covered by test/server.test.ts),
+  but paying on Base needs an agent wallet with Circle test USDC, and that faucet cannot be scripted.
+- Gaian sandbox mode (real VND payout in the sandbox). It needs Gaian sandbox API keys and a
+  KYC-approved sandbox user, which are private credentials not available for this run.
+
+Full console output
+-------------------
+
+> x402-vietqr@0.1.0 demo
+> tsx scripts/demo.ts
+
+API http://localhost:3010, Gaian mock (demo pricing, no VND moves)
+
+[1] User: 2 nights in Da Lat, quiet, budget 40 USD. Agent searches.
+    dl-cloud-hill  Cloud Hill Homestay (demo)  1,380,000 VND  rating 4.8
+    dl-pine-house  Pine House Da Lat (demo)  900,000 VND  rating 4.6
+    picked dl-pine-house
+
+[2] Limit check: same place with a 5 USD budget must be refused.
+    refused: Order is 34.23 USDC, already spent 0.00 of a 5 USDC budget
+
+[3] Agent pays with x402 on Stellar testnet.
+    quote 34.23 USDC for 900,000 VND
+    order 02687c6c-84c6-4cea-a572-94ee06cba7fe status reserved
+    settlement {"success":true,"payer":"GD7NN6LAURF23DANUM376CGJ7DF4OZORBY6JUEEF4BYABDRIRSHQAQRI","transaction":"6a80f42a572890a10ef7ba696031c7b99dbb2c57eebee035d7bd730037f91df7","network":"stellar:testnet"}
+    https://stellar.expert/explorer/testnet/tx/6a80f42a572890a10ef7ba696031c7b99dbb2c57eebee035d7bd730037f91df7
+
+[4] Follow the order.
+    processing
+    completed
+    payTo USDC 0 -> 34.23
+
+[5] Limit check: paying the same quote twice must be refused.
+    second payment on quote: HTTP 409
+
+E2E OK

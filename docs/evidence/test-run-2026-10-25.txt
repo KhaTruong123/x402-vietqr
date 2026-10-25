@@ -1,0 +1,134 @@
+x402-vietqr local test run
+Date: 2026-10-25T01:15:18Z
+Node v20.20.0, npm 10.8.2, Darwin arm64
+Commands: npm ci, npm test, npm run typecheck
+Mode: GAIAN_MODE=mock (tests set it themselves)
+
+===== npm test =====
+
+> x402-vietqr@0.1.0 test
+> tsx --test test/*.test.ts
+
+TAP version 13
+# Subtest: atomic amounts use 7 decimals on Stellar and 6 on Base
+ok 1 - atomic amounts use 7 decimals on Stellar and 6 on Base
+  ---
+  duration_ms: 0.448708
+  ...
+# Subtest: policy drops options that charge more than the quote
+ok 2 - policy drops options that charge more than the quote
+  ---
+  duration_ms: 0.109208
+  ...
+# Subtest: policy drops unknown recipients when a trusted list is set
+ok 3 - policy drops unknown recipients when a trusted list is set
+  ---
+  duration_ms: 0.324
+  ...
+# Subtest: parallel payments cannot both pass the budget check
+ok 4 - parallel payments cannot both pass the budget check
+  ---
+  duration_ms: 47.309375
+  ...
+# Subtest: body is serialised with sorted keys
+ok 5 - body is serialised with sorted keys
+  ---
+  duration_ms: 0.452542
+  ...
+# Subtest: signature follows key + METHOD + path + query + body + ts, base64url
+ok 6 - signature follows key + METHOD + path + query + body + ts, base64url
+  ---
+  duration_ms: 0.282
+  ...
+# Subtest: query string is appended without '?' and ':' is stripped from the path
+ok 7 - query string is appended without '?' and ':' is stripped from the path
+  ---
+  duration_ms: 0.133542
+  ...
+# Subtest: mock quote prices VND in USDC, rounded up, and is marked demo
+ok 8 - mock quote prices VND in USDC, rounded up, and is marked demo
+  ---
+  duration_ms: 0.835417
+  ...
+# Subtest: an order above 50 USD is refused at quote time
+ok 9 - an order above 50 USD is refused at quote time
+  ---
+  duration_ms: 0.286541
+  ...
+# Subtest: an invalid QR is refused
+ok 10 - an invalid QR is refused
+  ---
+  duration_ms: 0.168625
+  ...
+# Subtest: a quote can be used once
+ok 11 - a quote can be used once
+  ---
+  duration_ms: 0.848208
+  ...
+# Subtest: an expired quote is refused
+ok 12 - an expired quote is refused
+  ---
+  duration_ms: 1103.613792
+  ...
+# Subtest: an order only moves past reserved after settlement
+ok 13 - an order only moves past reserved after settlement
+  ---
+  duration_ms: 1.734666
+  ...
+# Subtest: catalogue has 10 places, all labelled demo
+ok 14 - catalogue has 10 places, all labelled demo
+  ---
+  duration_ms: 0.491417
+  ...
+# Subtest: search matches Vietnamese city names without accents and filters by budget
+ok 15 - search matches Vietnamese city names without accents and filters by budget
+  ---
+  duration_ms: 0.90975
+  ...
+# Subtest: tags must all match
+ok 16 - tags must all match
+  ---
+  duration_ms: 0.121458
+  ...
+# Subtest: unknown quote is rejected before any payment is asked
+ok 17 - unknown quote is rejected before any payment is asked
+  ---
+  duration_ms: 44.32325
+  ...
+# Subtest: paying a quote without x402 payment returns 402 with Stellar and Base at the quoted price
+ok 18 - paying a quote without x402 payment returns 402 with Stellar and Base at the quoted price
+  ---
+  duration_ms: 618.04675
+  ...
+# Subtest: CRC-16/CCITT-FALSE matches the standard check value
+ok 19 - CRC-16/CCITT-FALSE matches the standard check value
+  ---
+  duration_ms: 0.503375
+  ...
+# Subtest: built QR has a valid checksum and carries the amount
+ok 20 - built QR has a valid checksum and carries the amount
+  ---
+  duration_ms: 0.194125
+  ...
+# Subtest: a tampered QR fails the checksum
+ok 21 - a tampered QR fails the checksum
+  ---
+  duration_ms: 0.109833
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4860.738125
+exit code: 0
+
+===== npm run typecheck =====
+
+> x402-vietqr@0.1.0 typecheck
+> tsc --noEmit
+
+exit code: 0
