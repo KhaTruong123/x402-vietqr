@@ -110,6 +110,8 @@ The MCP server has three tools:
 - **Testnet and sandbox only.** Do not point it at mainnet. The code has not had a security review.
 - **Sandbox payout is not proven yet.** The sandbox code path is written (read QR, quote, place order, fund the order, verify, poll status), but it has not completed a full run. It needs a sandbox user that has passed KYC.
 - **Base Sepolia payment is not proven yet.** The server offers Base in its 402 response, and a test checks that. No agent wallet with Base test USDC was used, because Circle's faucet cannot be scripted. To try it, fund a wallet at https://faucet.circle.com and set `AGENT_EVM_PRIVATE_KEY`.
+- **The treasury signs Gaian's funding transaction without checking it.** In sandbox mode, `src/payout.ts` signs the transaction Gaian returns with the treasury key and submits it. It does not first check the amount, the asset or the destination. Before any use outside a sandbox, the server must decode that transaction and refuse to sign unless it sends the quoted USDC amount to the order's deposit address.
+- **There is no automatic refund.** If funding the Gaian order fails after the agent's payment has settled, the order is marked `failed` and the agent's USDC stays in the `payTo` wallet. Someone has to send it back by hand.
 - **State lives in memory.** Quotes, orders and the session budget reset when the process restarts. A real deployment needs a database and a lock around quote use.
 - **The catalogue is fake.** The 10 places, their bank accounts and their QR codes are made up for testing. The QR codes are valid VietQR strings that point at fake accounts.
 - **Runs locally only.** It has not been deployed anywhere.
